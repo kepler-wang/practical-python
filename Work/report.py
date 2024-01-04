@@ -70,6 +70,10 @@ def make_report(portfolio, prices):
 report = make_report(portfolio, prices)
 headers = ("Name", "Shares", "Price", "Change")
 print(f"%10s %10s %10s %10s" % headers)
-print("---------- ---------- ---------- -----------")
+print(("-" * 10 + " ") * len(headers))
 for r in report:
     print("%10s %10d %10.2f %10.2f" % r)
+
+# includes the currency symbol ($)
+# for name, shares, price, change in report:
+#    print(f"{name:>10s} {shares:>10d} {'$'+str(price):>10s} {change:>10.2f}")
