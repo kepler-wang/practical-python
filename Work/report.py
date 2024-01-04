@@ -51,3 +51,25 @@ if value > total_cost:
     print(f"Gain {(value-total_cost):0.2f}")
 else:
     print(f"Loss {(total_cost-value):0.2f}")
+
+
+def make_report(portfolio, prices):
+    "takes a list of stocks and dictionary of prices as input and returns a list of tuples"
+    report = []
+    for stock in portfolio:
+        name = stock["name"]
+        shares = stock["shares"]
+        price = prices[name]
+        change = price - stock["price"]
+        r = (name, shares, price, change)
+        report.append(r)
+
+    return report
+
+
+report = make_report(portfolio, prices)
+headers = ("Name", "Shares", "Price", "Change")
+print(f"%10s %10s %10s %10s" % headers)
+print("---------- ---------- ---------- -----------")
+for r in report:
+    print("%10s %10d %10.2f %10.2f" % r)
