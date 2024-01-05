@@ -13,12 +13,12 @@ def read_portfolio(filename):
         headers = next(rows)
         for row in rows:
             record = dict(zip(headers, row))
-            holding = {
+            stock = {
                 "name": record["name"],
                 "shares": int(record["shares"]),
                 "price": float(record["price"]),
             }
-            portfolio.append(holding)
+            portfolio.append(stock)
 
     return portfolio
 
@@ -36,28 +36,6 @@ def read_prices(filename):
     return prices
 
 
-portfolio = read_portfolio("Data/portfolio.csv")
-prices = read_prices("Data/prices.csv")
-
-
-total_cost = 0.0
-for stock in portfolio:
-    total_cost += stock["shares"] * stock["price"]
-
-
-value = 0.0
-for stock in portfolio:
-    value += stock["shares"] * prices[stock["name"]]
-
-print("Total cost:", total_cost)
-print("Current value:", value)
-
-if value > total_cost:
-    print(f"Gain {(value-total_cost):0.2f}")
-else:
-    print(f"Loss {(total_cost-value):0.2f}")
-
-
 def make_report(portfolio, prices):
     "takes a list of stocks and dictionary of prices as input and returns a list of tuples"
     report = []
@@ -72,13 +50,21 @@ def make_report(portfolio, prices):
     return report
 
 
-report = make_report(portfolio, prices)
-headers = ("Name", "Shares", "Price", "Change")
-print(f"%10s %10s %10s %10s" % headers)
-print(("-" * 10 + " ") * len(headers))
-for r in report:
-    print("%10s %10d %10.2f %10.2f" % r)
+def print_report(report):
+    "Print out the report"
+    headers = ("Name", "Shares", "Price", "Change")
+    print(f"%10s %10s %10s %10s" % headers)
+    print(("-" * 10 + " ") * len(headers))
+    for r in report:
+        print("%10s %10d %10.2f %10.2f" % r)
 
-# includes the currency symbol ($)
-# for name, shares, price, change in report:
-#    print(f"{name:>10s} {shares:>10d} {'$'+str(price):>10s} {change:>10.2f}")
+
+def portfolio_report(portfolio_filename, prices_filename):
+    "Make a report and print it"
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report)
+
+
+portfolio_report("Data/portfolio.csv", "Data/prices.csv")
