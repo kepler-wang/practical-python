@@ -58,16 +58,19 @@ class HTMLTableFormatter(TableFormatter):
         print("</tr>")
 
 
+class FormatError(Exception):
+    pass
+
+
 def create_formatter(name):
     if name == "txt":
-        formatter = TextTableFormatter()
+        return TextTableFormatter()
     elif name == "csv":
-        formatter = CSVTableFormatter()
+        return CSVTableFormatter()
     elif name == "html":
-        formatter = HTMLTableFormatter()
+        return HTMLTableFormatter()
     else:
-        raise RuntimeError(f"Unknown foramt {name}")
-    return formatter
+        raise FormatError(f"Unknown table format {name}")
 
 
 def print_table(objects, columns, formatter):
