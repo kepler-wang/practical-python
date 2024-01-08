@@ -34,7 +34,7 @@ class TextTableFormatter(TableFormatter):
 
 class CSVTableFormatter(TableFormatter):
     """
-    Output portfolio data in CSV format.
+    Output objects data in CSV format.
     """
 
     def headings(self, headers):
@@ -68,3 +68,10 @@ def create_formatter(name):
     else:
         raise RuntimeError(f"Unknown foramt {name}")
     return formatter
+
+
+def print_table(objects, columns, formatter):
+    formatter.headings(columns)
+    for obj in objects:
+        rowdata = [str(getattr(obj, colname)) for colname in columns]
+        formatter.row(rowdata)
