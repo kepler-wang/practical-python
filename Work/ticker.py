@@ -1,7 +1,7 @@
 # ticker.py
 
-from follow import follow
 import csv
+from follow import follow
 import report
 import tableformat
 
@@ -29,17 +29,11 @@ def parse_stock_data(lines):
     return rows
 
 
-def filter_symbols(rows, names):
-    for row in rows:
-        if row["name"] in names:
-            yield row
-
-
 def ticker(portfile, logfile, fmt):
     portfolio = report.read_portfolio(portfile)
     lines = follow(logfile)
     rows = parse_stock_data(lines)
-    rows = filter_symbols(rows, portfolio)
+    rows = (row for row in rows if row["name"] in portfolio)
     formatter = tableformat.create_formatter(fmt)
     formatter.headings(["Name", "Price", "Change"])
     for row in rows:
@@ -49,6 +43,6 @@ def ticker(portfile, logfile, fmt):
 if __name__ == "__main__":
     portfolio = report.read_portfolio("Data/portfolio.csv")
     rows = parse_stock_data(follow("Data/stocklog.csv"))
-    rows = filter_symbols(rows, portfolio)
+    rows = (row for row in rows if row["name"] in portfolio)
     for row in rows:
         print(row)
