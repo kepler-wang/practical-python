@@ -1,9 +1,13 @@
 # report.py
 
 import sys
+import logging
 import fileparse
 from portfolio import Portfolio
 import tableformat
+
+logging.basicConfig(filename="report.log", filemode="w", level=logging.DEBUG)
+logging.getLogger("fileparse").setLevel(logging.DEBUG)
 
 
 def read_portfolio(filename, **options):
