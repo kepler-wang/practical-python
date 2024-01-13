@@ -2,9 +2,9 @@
 
 import sys
 import logging
-import fileparse
-from portfolio import Portfolio
-import tableformat
+from . import fileparse
+from .portfolio import Portfolio
+from . import tableformat
 
 logging.basicConfig(filename="report.log", filemode="w", level=logging.DEBUG)
 logging.getLogger("fileparse").setLevel(logging.DEBUG)

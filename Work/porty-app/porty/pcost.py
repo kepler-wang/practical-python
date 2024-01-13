@@ -1,7 +1,7 @@
 # pcost.py
 
-import report
 import sys
+from . import report
 
 
 def portfolio_cost(filename):
